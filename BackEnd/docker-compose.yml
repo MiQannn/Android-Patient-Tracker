@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+
+  # server:
+  #   depends_on:
+  #     - database
+  #   build: ./server
+  #   ports:
+  #     - '5000:5000'
+  #   environment:
+  #     DATABASE_URL: http://database:5432
+
+  database:
+    build: ./database
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./database/postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - TZ=GMT+7
