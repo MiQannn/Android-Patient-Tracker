@@ -5,7 +5,7 @@ dotenv.config()
 const ENV_VARS = ['DATABASE_URL']
 
 export default {
-  databaseURL: process.env.DATABASE_URL,
+  databaseUrl: process.env.DATABASE_URL,
   port: process.env.PORT || 5000,
 
   checkEnvVariables: function () {
