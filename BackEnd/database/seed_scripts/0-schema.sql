@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS "doctor";
-CREATE TABLE IF NOT EXISTS "doctor" (
-  "doctor_id" int NOT NULL,
+CREATE TABLE "doctor" (
+  "doctor_id" serial unique,
   "doctor_name" varchar(256) NOT NULL,
   "doctor_expertise" varchar(256) NOT NULL,
   "doctor_password" varchar(256) NOT NULL,
@@ -9,45 +9,52 @@ CREATE TABLE IF NOT EXISTS "doctor" (
 
 DROP TABLE IF EXISTS "patient";
 CREATE TABLE "patient" (
-  "patient_id" int NOT NULL,
-  "patient_name" varchar(256) NOT NULL,
-  "patient_age" int NOT NULL,
-  "patient_ssn" varchar(256) NOT NULL,
-  PRIMARY KEY ("patient_id")
-);
-
-DROP TABLE IF EXISTS "medical_record";
-CREATE TABLE "medical_record" (
-  "record_id" int NOT NULL,
-  "patient_id" int NOT NULL ,
+  "patient_id" serial unique,
+  "patient_name" varchar(256),
+  "patient_age" int,
+  "patient_ssn" varchar(256),
   "medical_history" text,
-  "day_of_arrival" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "day_leaving" timestamp,
-  PRIMARY KEY ("record_id"),
-  FOREIGN KEY ("patient_id") REFERENCES "patient"("patient_id")
+  PRIMARY KEY ("patient_id")
 );
 
 DROP TABLE IF EXISTS "treatment";
 CREATE TABLE "treatment" (
-  "treatment_id" int NOT NULL,
-  "record_id" int NOT NULL ,
-  "doctor_id" int NOT NULL ,
-  "patient_status" text NOT NULL,
-  "patient_diagnosis" text NOT NULL,
+  "treatment_id" serial unique,
+  "patient_id" int,
+  "doctor_id" int,
+  "patient_status" text,
+  "patient_diagnosis" text,
   "medicine" text,
-  "treatment_day" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "cost" float,
+  "treatment_day" timestamp default localtimestamp,
+  "cost" bigint,
   PRIMARY KEY ("treatment_id"),
-  FOREIGN KEY ("doctor_id") REFERENCES "doctor"("doctor_id"),
-  FOREIGN KEY ("record_id") REFERENCES "medical_record"("record_id")
+  CONSTRAINT "FK_treatment.patient_id"
+    FOREIGN KEY ("patient_id")
+      REFERENCES "patient"("patient_id"),
+  CONSTRAINT "FK_treatment.doctor_id"
+    FOREIGN KEY ("doctor_id")
+      REFERENCES "doctor"("doctor_id")
 );
+
+
 
 DROP TABLE IF EXISTS "appointment";
 CREATE TABLE "appointment" (
-  "appointment_id" int NOT NULL,
-  "patient_id"   int NOT NULL,
-  "appointment_day" timestamp NOT NULL,
-  "appointment_descripton" varchar(256),
+  "appointment_id" serial unique,
+  "patient_id"  int,
+  "doctor_id" int,
+  "appointment_day" timestamp,
+  "appointment_descripton" text,
   PRIMARY KEY ("appointment_id"),
-  FOREIGN KEY ("patient_id") REFERENCES "patient"("patient_id")
+  CONSTRAINT "FK_Appointment.  patient_id"
+    FOREIGN KEY ("  patient_id")
+      REFERENCES "patient"("patient_id"),
+  CONSTRAINT "FK_Appointment.doctor_id"
+    FOREIGN KEY ("doctor_id")
+      REFERENCES "doctor"("doctor_id")
 );
+
+
+
+
+
