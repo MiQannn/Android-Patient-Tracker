@@ -50,15 +50,19 @@ class ImageLoader extends Component {
 }
 
 export default function App() {
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const handleModal = () => setIsModalVisible(() => !isModalVisible);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
  
   return (
 
-    <ImageBackground source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUkdKq7Xrg8J3NXnzPcdF1JQeMrefC9hQnow&usqp=CAU'}} style={styles.container}>
+    <ImageBackground source={{uri: 'https://media.idownloadblog.com/wp-content/uploads/2019/04/Gradient-V1-iphone-wallpaper-gradient-AR72014.png'}} style={styles.container}>
       
-      <ImageLoader style={styles.image1}  source={require('../PaTrack/picture/doctor.png')} />
       <ImageLoader style={styles.image2}  source={require('../PaTrack/picture/TraceCase.png')} />
+      <ImageLoader style={styles.image1}  source={require('../PaTrack/picture/doctor.png')} />
+      
+
      
       <StatusBar style="auto" />
       <View style={styles.inputView}>
@@ -80,7 +84,7 @@ export default function App() {
         />
       </View>
 
-      <TouchableOpacity style={styles.loginBtn}> 
+      <TouchableOpacity style={styles.loginBtn} onPress={handleModal}> 
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
 
@@ -99,28 +103,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
+  text: {
+    marginBottom: 40,
+  },
+
   image1: {
     width: 100,
     height: 100,
-    resizeMode: 'contain',
+    resizeMode: 'center',
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     marginLeft: 10,
   },
 
   image2: {
-    width: 300,
-    height: 100,
-    resizeMode: 'contain',
-    marginBottom: 30,
-    marginRight: 5,
-  },
-
-  title: {
-    fontSize: 60,
-    fontWeight: "bold",
-    marginBottom: 20,
-    fontFamily: "Arial",
+    width: 650,
+    height: 90,
+    resizeMode: 'center',
+    marginBottom: 40,
+    marginLeft: 10,
   },
 
   inputView: {
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: "50%",
     height: 35,
-    marginTop: 0,
+    marginTop: 10,
     marginBottom: 20,
     alignItems: "center",
     borderStyle: 'solid',
@@ -153,19 +154,19 @@ const styles = StyleSheet.create({
   forgot_button: {
     height: 30,
     marginBottom: 30,
-    marginTop: 50,
+    marginTop: 30,
     fontFamily: "Arial",
     color: "#fff",
   },
  
   loginBtn: {
-    width: "20%",
+    width: "30%",
     borderRadius: 25,
-    height: 25,
+    height: 30,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
-    backgroundColor: "#00b7eb",
+    backgroundColor: "#267986",
     borderStyle: 'solid',
     borderWidth: 2
   },
