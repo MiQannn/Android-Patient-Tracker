@@ -1,4 +1,0 @@
-
-docker build -t android-patient-tracker-server .
-
-docker run --init --rm -it -p 5000:5000 android-patient-tracker-server
