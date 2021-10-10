@@ -6,6 +6,8 @@ import config from '../config.js'
 export const handleLogin = async (req, res) => {
   const { doctorId, password } = req.body
 
+  console.log('Challenge accepted')
+
   const doctor = (
     await database.query('SELECT * FROM doctor WHERE doctor_id=$1', [doctorId])
   ).rows[0]
@@ -46,8 +48,10 @@ export const verifyToken = (req, res, next) => {
     })
   }
 
-  jwt.verify(token, jwtSecret, (err, decodedUser) => {
+  jwt.verify(token, config.jwtSecret, (err, decodedUser) => {
     if (err) {
+      console.log(err, token)
+
       return res.status(401).json({
         message: 'Invalid token',
       })

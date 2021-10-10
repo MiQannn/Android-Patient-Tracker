@@ -1,3 +1,3 @@
 export const getAllDoctors = async (req, res) => {
-  res.send('ehe')
+  res.send(`You are ${JSON.stringify(req.locals.user)}`)
 }
