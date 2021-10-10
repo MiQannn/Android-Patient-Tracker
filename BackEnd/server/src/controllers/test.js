@@ -1,8 +1,8 @@
 import database from '../services/database.js'
 
-export const getAllPatients = async (req, res) => {
+export const getTest = async (req, res) => {
   res.send({
-    name: 'HelpMeDoctor',
+    name: 'This is a route for testing',
     databaseTime: (await database.query('SELECT NOW();')).rows,
   })
 }

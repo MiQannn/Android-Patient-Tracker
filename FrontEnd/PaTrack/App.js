@@ -10,7 +10,9 @@ import {
   TouchableOpacity,
   ImageBackground,
   Animated,
+  Alert,
 } from "react-native";
+import axios from "axios";
  
 class ImageLoader extends Component {
   state = {
@@ -54,6 +56,14 @@ export default function App() {
   const handleModal = () => setIsModalVisible(() => !isModalVisible);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    const res = await axios.post('http://localhost:5000/login', {
+      doctorId: email,
+      password: password
+    })
+    alert(JSON.stringify(res.data))
+  }
  
   return (
 
@@ -84,7 +94,7 @@ export default function App() {
         />
       </View>
 
-      <TouchableOpacity style={styles.loginBtn} onPress={handleModal}> 
+      <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}> 
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
 
