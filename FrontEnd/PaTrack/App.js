@@ -69,7 +69,7 @@ export default function App() {
 
     <ImageBackground source={{uri: 'https://media.idownloadblog.com/wp-content/uploads/2019/04/Gradient-V1-iphone-wallpaper-gradient-AR72014.png'}} style={styles.container}>
       
-      <ImageLoader style={styles.image2}  source={require('../PaTrack/picture/TraceCase.png')} />
+      <ImageLoader style={styles.image2}  source={require('../PaTrack/picture/logo.png')} />
       <ImageLoader style={styles.image1}  source={require('../PaTrack/picture/doctor.png')} />
       
 
@@ -128,10 +128,10 @@ const styles = StyleSheet.create({
 
   image2: {
     width: 650,
-    height: 90,
+    height: 120,
     resizeMode: 'center',
     marginBottom: 40,
-    marginLeft: 10,
+    marginRight: 10,
   },
 
   inputView: {
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: "center",
     borderStyle: 'solid',
-    borderWidth: 2
+    borderWidth: 1
   },
  
   loginText: {
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
  
   loginBtn: {
-    width: "30%",
+    width: "50%",
     borderRadius: 25,
     height: 30,
     alignItems: "center",
