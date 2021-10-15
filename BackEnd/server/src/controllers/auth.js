@@ -5,8 +5,26 @@ import config from '../config.js'
 
 export const handleLogin = async (req, res) => {
   const { doctorId, password } = req.body
-
-  console.log('Challenge accepted')
+  console.log(doctorId.toUpperCase())
+  if (doctorId.toUpperCase() === 'ADMIN') {
+    if (password === config.adminPassword) {
+      const adminInfo = {
+        id: 'ADMIN',
+        name: 'ADMIN',
+      }
+      const accessToken = jwt.sign(adminInfo, config.jwtSecret, {
+        expiresIn: config.tokenExpires,
+      })
+      return res.json({
+        ...adminInfo,
+        accessToken,
+      })
+    } else {
+      return res.status(401).json({
+        message: 'Wrong password',
+      })
+    }
+  }
 
   const doctor = (
     await database.query('SELECT * FROM doctor WHERE doctor_id=$1', [doctorId])
@@ -24,12 +42,12 @@ export const handleLogin = async (req, res) => {
       id: doctorId,
       name: doctor.doctor_name,
     }
-    const token = jwt.sign(doctorInfo, config.jwtSecret, {
+    const accessToken = jwt.sign(doctorInfo, config.jwtSecret, {
       expiresIn: config.tokenExpires,
     })
     res.json({
       ...doctorInfo,
-      accessToken: token,
+      accessToken,
     })
   } else {
     return res.status(401).json({
