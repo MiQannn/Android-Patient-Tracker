@@ -7,7 +7,9 @@ import { verifyToken } from './controllers/auth.js'
 import testRouter from './routes/test.js'
 import loginRouter from './routes/login.js'
 
-import doctorsRouter from './routes/doctors.js'
+import doctorRouter from './routes/doctor.js'
+import appointmentRouter from './routes/appointment.js'
+import patientRouter from './routes/patient.js'
 
 const app = express()
 app.use(cors())
@@ -18,8 +20,10 @@ app.use('/test', testRouter)
 app.use('/login', loginRouter)
 
 const APIRouter = express.Router()
-APIRouter.use(verifyToken)
-APIRouter.use('/doctors', doctorsRouter)
+// APIRouter.use(verifyToken)
+APIRouter.use('/doctor', doctorRouter)
+APIRouter.use('/appointment', appointmentRouter)
+APIRouter.use('/patient', patientRouter)
 
 app.use('/api', APIRouter)
 
