@@ -11,12 +11,7 @@ export const getUpcomingAppointments = async (req, res) => {
     WHERE doctor_id= $1
     AND date(appointment_day) > current_timestamp;`
 
-  // SQL Injection
-  // const result = await database.query(sql, [
-  //   doctorId,
-  //   new Date().toLocaleDateString(),
-  // ])
-  const result = await database.query(sql, ['DOC1'])
+  const result = await database.query(sql, [doctorId])
 
   //result
 

@@ -12,9 +12,7 @@ export const getMyPatients = async (req, res) => {
     WHERE doctor_id= $1
     AND patient.patient_name LIKE $2;`
 
-  // khi nao co doctorId thi sua 'DOC1' thanh doctorId
-  // khi nao co patientName thi sua 'J' thanh patientName
-  const result = await database.query(sql, ['DOC1', 'J' + '%'])
+  const result = await database.query(sql, [doctorId, `%${patientName}%`])
 
   //result
 

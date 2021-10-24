@@ -4,7 +4,6 @@ import cors from 'cors'
 
 import { verifyToken } from './controllers/auth.js'
 
-import testRouter from './routes/test.js'
 import loginRouter from './routes/login.js'
 
 import doctorRouter from './routes/doctor.js'
@@ -16,7 +15,6 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
-app.use('/test', testRouter)
 app.use('/login', loginRouter)
 
 const APIRouter = express.Router()
