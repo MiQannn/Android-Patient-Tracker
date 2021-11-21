@@ -31,13 +31,13 @@ const listings = [
   {
     id: 1,
     title: "Patient 1",
-    price: 100,
+    condition: "Headache",
     image: require("../assets/patient.png"),
   },
   {
     id: 2,
     title: "Patient 2",
-    price: 1000,
+    condition: "Broken leg",
     image: require("../assets/examination.png"),
   },
 ];
@@ -79,7 +79,7 @@ const HomeScreen = ({ navigation }) => {
           renderItem={({ item }) => (
             <Card
               title={item.title}
-              subTitle={"$" + item.price}
+              subTitle={"Condition: " + item.condition}
               image={item.image}
             />
           )}
