@@ -75,6 +75,7 @@ const HomeScreen = ({ navigation }) => {
         <FlatList
           data={listings}
           keyExtractor={(listing) => listing.id.toString()}
+          horizontal={true}
           renderItem={({ item }) => (
             <Card
               title={item.title}
