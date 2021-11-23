@@ -8,7 +8,7 @@ CREATE TABLE "doctor" (
 
 DROP TABLE IF EXISTS "patient";
 CREATE TABLE "patient" (
-  "patient_id" varchar(256),
+  "patient_id" serial unique,
   "patient_name" varchar(256),
   "patient_age" int,
   "patient_ssn" varchar(256),
@@ -19,7 +19,7 @@ CREATE TABLE "patient" (
 DROP TABLE IF EXISTS "treatment";
 CREATE TABLE "treatment" (
   "treatment_id" serial unique,
-  "patient_id" varchar(256),
+  "patient_id" int,
   "doctor_id" varchar(256),
   "patient_status" text,
   "patient_diagnosis" text,
@@ -40,7 +40,7 @@ CREATE TABLE "treatment" (
 DROP TABLE IF EXISTS "appointment";
 CREATE TABLE "appointment" (
   "appointment_id" serial unique,
-  "patient_id" varchar(256),
+  "patient_id" int,
   "doctor_id" varchar(256),
   "appointment_day" timestamp,
   "appointment_descripton" text,

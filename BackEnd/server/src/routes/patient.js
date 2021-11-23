@@ -1,8 +1,24 @@
 import express from 'express'
-import { getMyPatients } from '../controllers/patient.js'
+import {
+  getPatientsById,
+  getPatientsByName,
+  createPatient,
+} from '../controllers/patient.js'
 
 const router = express.Router()
 
-router.get('/', getMyPatients)
+// router.get('/', getMyPatients)
+
+router.get('/', async (req, res) => {
+  const { patientId, patientName } = req.body
+
+  if (patientId) {
+    await getPatientsById(req, res)
+  } else {
+    await getPatientsByName(req, res)
+  }
+})
+
+router.post('/', createPatient)
 
 export default router
