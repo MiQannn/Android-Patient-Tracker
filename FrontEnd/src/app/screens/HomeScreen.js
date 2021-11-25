@@ -85,10 +85,7 @@ const HomeScreen = ({ navigation }) => {
           )}
         />
       </View>
-      {/* <ListItem
-        title="Log Out"
-        IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
-      /> */}
+      
       <AppButton
         title="Go to LoginScreen"
         onPress={() => navigation.navigate("Login")}

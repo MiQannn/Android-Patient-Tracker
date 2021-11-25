@@ -68,6 +68,10 @@ const PatientInfoScreen = ({ navigation }) => {
         title="Go to MedicalInputScreen"
         onPress={() => navigation.navigate("MedicalInput")}
       />
+      <AppButton
+        title="Go to PatientInput"
+        onPress={() => navigation.navigate("PatientInput")}
+      />
     </Screen>
   );
 };

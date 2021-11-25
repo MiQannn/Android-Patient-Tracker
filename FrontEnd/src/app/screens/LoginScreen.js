@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import { StyleSheet, Image, View, TouchableOpacity, Text, Animated } from "react-native";
 import * as Yup from "yup";
 // import Modal from "react-native-modal";
-import AppFormField from "../components/AppFormField";
-import AppForm from "../components/AppForm.js";
+import AppFormField from "../components/forms/AppFormField";
+import AppForm from "../components/forms/AppForm.js";
 import Screen from "../components/Screen.js";
 // import AppButton from "../components/AppButton";
 
@@ -47,7 +47,7 @@ class ImageLoader extends Component {
 // function ModalTester() {
 //   const [isModalVisible, setModalVisible] = useState(false);
 
-//   const toggleModal = () => {
+//   const toggleModal  = () => {
 //     setModalVisible(!isModalVisible);
 //   };
 

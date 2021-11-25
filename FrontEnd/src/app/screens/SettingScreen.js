@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { StyleSheet, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-
+import { ListItem } from "../components/lists";
+import Icon from "../components/Icon";
 import Screen from "../components/Screen.js";
 import AppButton from "../components/AppButton";
 const SettingScreen = ({ navigation }) => {
   return (
     <Screen>
-      <AppButton
-        title="Go to PatientInput"
-        onPress={() => navigation.navigate("PatientInput")}
+      <ListItem
+        title="Log Out"
+        IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
       />
     </Screen>
   );

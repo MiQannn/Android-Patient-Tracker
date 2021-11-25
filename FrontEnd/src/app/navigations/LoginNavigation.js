@@ -5,7 +5,7 @@ import PatientInfoScreen from "../screens/PatientInfoScreen";
 import MedicalInputScreen from "../screens/MedicalInputScreen";
 import PatientInputScreen from "../screens/PatientInputScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BottomNavigation from "./BottomNavigation"
+import BottomNavigation from "./BottomNavigation";
 
 import React from "react";
 const Stack = createNativeStackNavigator();
