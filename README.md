@@ -6,6 +6,6 @@ cd FrontEnd
 
 cd src
 
-npm install
+expo install
 
 expo start
