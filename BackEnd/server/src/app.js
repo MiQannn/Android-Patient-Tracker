@@ -6,8 +6,8 @@ import { verifyToken } from './controllers/auth.js'
 
 import loginRouter from './routes/login.js'
 
-import doctorRouter from './routes/doctor.js'
 import appointmentRouter from './routes/appointment.js'
+import treatmentRouter from './routes/treatment.js'
 import patientRouter from './routes/patient.js'
 
 const app = express()
@@ -18,9 +18,9 @@ app.use(morgan('dev'))
 app.use('/login', loginRouter)
 
 const APIRouter = express.Router()
-// APIRouter.use(verifyToken)
-APIRouter.use('/doctor', doctorRouter)
+APIRouter.use(verifyToken)
 APIRouter.use('/appointment', appointmentRouter)
+APIRouter.use('/treatment', treatmentRouter)
 APIRouter.use('/patient', patientRouter)
 
 app.use('/api', APIRouter)

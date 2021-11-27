@@ -10,7 +10,7 @@ const router = express.Router()
 // router.get('/', getMyPatients)
 
 router.get('/', async (req, res) => {
-  const { patientId, patientName } = req.body
+  const { patientId, patientName } = req.query
 
   if (patientId) {
     await getPatientsById(req, res)

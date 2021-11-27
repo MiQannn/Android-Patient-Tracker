@@ -1,24 +1,8 @@
 import database from '../services/database.js'
 
-// export const getPatientsByName = async (req, res) => {
-//   const { doctorId, patientName } = req.body
-
-//   // Query database
-//   const sql = `
-//     SELECT DISTINCT "patient".*
-//     FROM "patient"
-//     INNER JOIN "appointment" ON appointment.patient_id = patient.patient_id
-//     WHERE doctor_id= $1
-//     AND patient.patient_name LIKE $2;`
-
-//   const result = await database.query(sql, [doctorId, `%${patientName}%`])
-
-//   //result
-//   res.json(result.rows)
-// }
-
 export const getPatientsByName = async (req, res) => {
-  const { patientName } = req.body
+  const patientName = req.query.patientName
+  console.log(patientName)
 
   // Query database
   const sql = `
@@ -33,7 +17,7 @@ export const getPatientsByName = async (req, res) => {
 }
 
 export const getPatientsById = async (req, res) => {
-  const { patientId } = req.body
+  const patientId = req.query.patientId
 
   // Query database
   const sql = `
