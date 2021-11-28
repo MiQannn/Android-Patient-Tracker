@@ -4,8 +4,11 @@ import * as Yup from "yup";
 // import Modal from "react-native-modal";
 import AppFormField from "../components/forms/AppFormField";
 import AppForm from "../components/forms/AppForm.js";
+import {SubmitButton} from '../components/forms'
 import Screen from "../components/Screen.js";
 // import AppButton from "../components/AppButton";
+import apiClient from "../api/axiosClient"
+import { login } from "../api/loginApi";
 
 //this is a class to load image
 class ImageLoader extends Component {
@@ -52,11 +55,31 @@ class ImageLoader extends Component {
 //   };
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().required().email().label("Email"),
+  email: Yup.string().required().label("Doctor ID"),
   password: Yup.string().required().min(4).label("Password"),
 });
 
 const LoginScreen = ({ props, navigation }) => {
+
+  const handleLogin = async (values, actions) => {
+    let result = undefined;
+    try {
+      result = await login(values.email, values.password);
+    } catch {
+      actions.resetForm()
+      return console.log("Wrong password")
+    }
+
+
+    // LOGIN SUCCESS
+    apiClient.interceptors.request.use(async (config) => {
+      config.headers = { 'authorization': result.accessToken }
+      return config;
+    })
+
+    navigation.navigate("Home")
+  }
+
   return (
     <Screen style={styles.container}>
      
@@ -66,7 +89,7 @@ const LoginScreen = ({ props, navigation }) => {
 
       <AppForm
         initialValues={{ email: "", password: "" }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleLogin}
         validationSchema={validationSchema}
       >
          
@@ -93,9 +116,11 @@ const LoginScreen = ({ props, navigation }) => {
           textContentType="password"
         />
         </View>
-        <TouchableOpacity title="Login" onPress={() => navigation.navigate("Home")} style={styles.loginBtn}>
+        {/* <TouchableOpacity title="Login" onPress={() => } style={styles.loginBtn}>
           <Text style={styles.loginText}>LOGIN</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <SubmitButton title="LOGIN" />
+
       </AppForm>
 
       <TouchableOpacity>
