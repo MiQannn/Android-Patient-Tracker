@@ -22,9 +22,9 @@ export const createTreatment = async (req, res) => {
   const doctorId = req.locals.user.id
   const {
     patientId,
-    treatment_day,
-    patient_status,
-    patient_diagnosis,
+    treatmentDay,
+    patientStatus,
+    patientDiagnosis,
     medicine,
     cost,
   } = req.body
@@ -36,9 +36,9 @@ export const createTreatment = async (req, res) => {
   const result = await database.query(sql, [
     doctorId,
     patientId,
-    treatment_day,
-    patient_status,
-    patient_diagnosis,
+    treatmentDay,
+    patientStatus,
+    patientDiagnosis,
     medicine,
     cost,
   ])
