@@ -7,11 +7,10 @@ export const getTreatment = async (req, res) => {
   // Query database
   const sql = `
     SELECT *
-    FROM "treatment"`
-  // WHERE doctor_id= $1
-  // AND patient_id = $2;`
+    FROM "treatment"
+    WHERE patient_id = $1;`
 
-  const result = await database.query(sql)
+  const result = await database.query(sql, [patientId])
 
   //result
 

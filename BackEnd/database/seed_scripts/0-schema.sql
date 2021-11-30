@@ -24,7 +24,7 @@ CREATE TABLE "treatment" (
   "patient_status" text,
   "patient_diagnosis" text,
   "medicine" text,
-  "treatment_day" timestamp default localtimestamp,
+  "treatment_day" timestamp,
   "cost" bigint,
   PRIMARY KEY ("treatment_id"),
   CONSTRAINT "FK_treatment.patient_id"
