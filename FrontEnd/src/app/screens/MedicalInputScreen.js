@@ -31,6 +31,7 @@ const MedicalInputScreen = ({ navigation }) => {
     <Screen style={styles.container}>
       <AppForm
         initialValues={{
+          patientId:"",
           patientStatus: "",
           patientDiagnosis: "",
           medicine: "",

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Image, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Yup from "yup";
 import {
   AppForm,
@@ -62,6 +63,14 @@ const PatientInputScreen = ({ navigation }) => {
           name="medicalHistory"
           numberOfLines={3}
           placeholder="Medical History"
+        />
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
         />
         <SubmitButton title="Submit" />
       </AppForm>

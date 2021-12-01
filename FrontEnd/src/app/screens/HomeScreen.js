@@ -85,7 +85,7 @@ const HomeScreen = ({ navigation }) => {
           )}
         />
       </View>
-      
+
       <AppButton
         title="Go to LoginScreen"
         onPress={() => navigation.navigate("Login")}

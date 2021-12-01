@@ -1,27 +1,32 @@
-import React, {Component} from "react";
-import { StyleSheet, Image, View, TouchableOpacity, Text, Animated } from "react-native";
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  Image,
+  View,
+  TouchableOpacity,
+  Text,
+  Animated,
+} from "react-native";
 import * as Yup from "yup";
-// import Modal from "react-native-modal";
 import AppFormField from "../components/forms/AppFormField";
 import AppForm from "../components/forms/AppForm.js";
-import {SubmitButton} from '../components/forms'
+import { SubmitButton } from "../components/forms";
 import Screen from "../components/Screen.js";
-// import AppButton from "../components/AppButton";
-import apiClient from "../api/axiosClient"
+import apiClient from "../api/axiosClient";
 import { login } from "../api/loginApi";
 
 //this is a class to load image
 class ImageLoader extends Component {
   state = {
     opacity: new Animated.Value(0),
-  }
+  };
   onLoad = () => {
     Animated.timing(this.state.opacity, {
       toValue: 1,
       duration: 1000,
       useNativeDriver: true,
     }).start();
-  }
+  };
   render() {
     return (
       <Animated.Image
@@ -35,7 +40,7 @@ class ImageLoader extends Component {
                 scale: this.state.opacity.interpolate({
                   inputRange: [0, 1],
                   outputRange: [0.85, 1],
-                })
+                }),
               },
             ],
           },
@@ -60,39 +65,40 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginScreen = ({ props, navigation }) => {
-
   const handleLogin = async (values, actions) => {
     let result = undefined;
     try {
       result = await login(values.email, values.password);
     } catch {
-      actions.resetForm()
-      return console.log("Wrong password")
+      actions.resetForm();
+      return console.log("Wrong password");
     }
-
 
     // LOGIN SUCCESS
     apiClient.interceptors.request.use(async (config) => {
-      config.headers = { 'authorization': result.accessToken }
+      config.headers = { authorization: result.accessToken };
       return config;
-    })
-
-    navigation.navigate("Home")
-  }
+    });
+    
+    navigation.navigate("Home");
+  };
 
   return (
     <Screen style={styles.container}>
-     
-      
-      <ImageLoader style={styles.image1}  source={require('../assets/logo.png')} />
-      <ImageLoader style={styles.image2}  source={require('../assets/doctor.png')} />
+      <ImageLoader
+        style={styles.image1}
+        source={require("../assets/logo.png")}
+      />
+      <ImageLoader
+        style={styles.image2}
+        source={require("../assets/doctor.png")}
+      />
 
       <AppForm
         initialValues={{ email: "", password: "" }}
         onSubmit={handleLogin}
         validationSchema={validationSchema}
       >
-         
         <AppFormField
           style={styles.boxinside}
           autoCapitalize="none"
@@ -103,24 +109,23 @@ const LoginScreen = ({ props, navigation }) => {
           placeholder="ID"
           textContentType="emailAddress"
         />
-       
+
         <View style={styles.inputView}>
-        <AppFormField
-          style={styles.boxinside}
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="lock"
-          name="password"
-          placeholder="Password"
-          securityTextEntry
-          textContentType="password"
-        />
+          <AppFormField
+            style={styles.boxinside}
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="lock"
+            name="password"
+            placeholder="Password"
+            securityTextEntry
+            textContentType="password"
+          />
         </View>
         {/* <TouchableOpacity title="Login" onPress={() => } style={styles.loginBtn}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity> */}
         <SubmitButton title="LOGIN" />
-
       </AppForm>
 
       <TouchableOpacity>
@@ -139,9 +144,7 @@ const LoginScreen = ({ props, navigation }) => {
         </View>
       </Modal>
     </View> */}
-
     </Screen>
-    
   );
 };
 
@@ -185,21 +188,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
     backgroundColor: "#267986",
-    borderStyle: 'solid',
-    borderWidth: 2
+    borderStyle: "solid",
+    borderWidth: 2,
   },
 
   loginText: {
     fontFamily: "Arial",
     fontSize: 12,
-    color: '#FFFFFF'
+    color: "#FFFFFF",
   },
 
   forgot_button: {
     marginBottom: -50,
     marginTop: 20,
   },
-
 });
 
 export default LoginScreen;
