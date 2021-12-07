@@ -11,11 +11,11 @@ import {
 } from "../components/forms";
 import Screen from "../components/Screen.js";
 import AppButton from "../components/AppButton";
-
-const validationSchema = Yup.object().shape({
+import { registerPatient } from "../api/patientApi";
+const patientValidationSchema = Yup.object().shape({
   patientName: Yup.string().required().min(1).label("Patient Name"),
-  age: Yup.number().required().min(1).max(10000).label("Age"),
-  ssn: Yup.string().required().min(1).label("SSN"),
+  patientAge: Yup.number().required().min(1).max(10000).label("Age"),
+  SSN: Yup.string().required().min(1).label("SSN"),
   medicalHistory: Yup.string().label("Medical History"),
   // category: Yup.object().required().nullable().label("Category"),
 });
@@ -27,18 +27,41 @@ const validationSchema = Yup.object().shape({
 // ];
 
 const PatientInputScreen = ({ navigation }) => {
+  const patientHandleSubmit = async (values, actions) => {
+    let patientResult = undefined;
+    try {
+      patientResult = await registerPatient(
+        values.patientName,
+        values.patientAge,
+        values.patientSSN,
+        values.medicalHistory
+      );
+      // authContext.setUser(result);
+      console.log(patientResult);
+      // navigation.navigate("Home");
+    } catch {
+      actions.resetForm();
+      return console.log("Wrong patientInput");
+    }
+
+    // LOGIN SUCCESS
+    // apiClient.interceptors.request.use(async (config) => {
+    //   config.headers = { authorization: result.accessToken };
+    //   return config;
+    // });
+  };
   return (
     <Screen style={styles.container}>
       <AppForm
         initialValues={{
           patientName: "",
-          age: "",
-          ssn: "",
+          patientAge: "",
+          patientSSN: "",
           medicalHistory: "",
           // category: null,
         }}
-        onSubmit={(values) => console.log(values)}
-        validationSchema={validationSchema}
+        onSubmit={patientHandleSubmit}
+        validationSchema={patientValidationSchema}
       >
         <AppFormField
           maxLength={255}
@@ -48,10 +71,10 @@ const PatientInputScreen = ({ navigation }) => {
         <AppFormField
           keyboardType="numeric"
           maxLength={3}
-          name="age"
+          name="patientAge"
           placeholder="Age"
         />
-        <AppFormField maxLength={255} name="ssn" placeholder="SSN" />
+        <AppFormField maxLength={255} name="patientSSN" placeholder="SSN" />
         {/* <AppFormPicker
           items={categories}
           name="category"
@@ -64,14 +87,14 @@ const PatientInputScreen = ({ navigation }) => {
           numberOfLines={3}
           placeholder="Medical History"
         />
-        <DateTimePicker
+        {/* <DateTimePicker
           testID="dateTimePicker"
           value={date}
           mode={mode}
           is24Hour={true}
           display="default"
           onChange={onChange}
-        />
+        /> */}
         <SubmitButton title="Submit" />
       </AppForm>
 

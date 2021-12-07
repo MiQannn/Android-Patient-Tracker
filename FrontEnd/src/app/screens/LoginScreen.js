@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import {
   StyleSheet,
   Image,
@@ -7,6 +7,7 @@ import {
   Text,
   Animated,
 } from "react-native";
+import AuthContext from "../auth/context";
 import * as Yup from "yup";
 import AppFormField from "../components/forms/AppFormField";
 import AppForm from "../components/forms/AppForm.js";
@@ -65,10 +66,14 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginScreen = ({ props, navigation }) => {
+  const authContext = useContext(AuthContext);
   const handleLogin = async (values, actions) => {
     let result = undefined;
     try {
       result = await login(values.email, values.password);
+      authContext.setUser(result);
+      console.log(result);
+      // navigation.navigate("Home");
     } catch {
       actions.resetForm();
       return console.log("Wrong password");
@@ -79,8 +84,6 @@ const LoginScreen = ({ props, navigation }) => {
       config.headers = { authorization: result.accessToken };
       return config;
     });
-    
-    navigation.navigate("Home");
   };
 
   return (
@@ -115,6 +118,7 @@ const LoginScreen = ({ props, navigation }) => {
             style={styles.boxinside}
             autoCapitalize="none"
             autoCorrect={false}
+            type="text"
             icon="lock"
             name="password"
             placeholder="Password"
@@ -122,9 +126,6 @@ const LoginScreen = ({ props, navigation }) => {
             textContentType="password"
           />
         </View>
-        {/* <TouchableOpacity title="Login" onPress={() => } style={styles.loginBtn}>
-          <Text style={styles.loginText}>LOGIN</Text>
-        </TouchableOpacity> */}
         <SubmitButton title="LOGIN" />
       </AppForm>
 
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 20,
     alignItems: "center",
-    fontFamily: "Arial",
+    // fontFamily: "Arial",
   },
 
   loginBtn: {

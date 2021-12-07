@@ -4,8 +4,6 @@ import AuthContext from "./app/auth/context";
 import { NavigationContainer } from "@react-navigation/native";
 import BottomNavigation from "./app/navigations/BottomNavigation";
 import navigationTheme from "./app/navigations/navigationTheme";
-// import AppPicker from "./app/components/AppPicker";
-// import AppTextInput from "./app/components/AppTextInput";
 import LoginNavigation from "./app/navigations/LoginNavigation";
 
 export default function App() {
@@ -13,9 +11,7 @@ export default function App() {
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <NavigationContainer theme={navigationTheme}>
-        {/* {user ?  */}
-        <LoginNavigation />
-        // : <BottomNavigation />}
+        {user ? <BottomNavigation /> : <LoginNavigation />}
       </NavigationContainer>
     </AuthContext.Provider>
   );

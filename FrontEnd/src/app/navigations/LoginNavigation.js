@@ -18,9 +18,9 @@ const LoginNavigation = () => (
   <Stack.Navigator initialRouteName="Login">
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Home" component={BottomNavigation} />
-    <Stack.Screen name="PatientInfo" component={PatientInfoScreen} />
-    <Stack.Screen name="MedicalInput" component={MedicalInputScreen} />
-    <Stack.Screen name="PatientInput" component={PatientInputScreen} />
+    {/* <Stack.Screen name="PatientInfo" component={PatientInfoScreen} /> */}
+    {/* <Stack.Screen name="MedicalInput" component={MedicalInputScreen} /> */}
+    {/* <Stack.Screen name="PatientInput" component={PatientInputScreen} /> */}
   </Stack.Navigator>
 );
 

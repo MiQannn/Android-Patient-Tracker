@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import {
   AppForm,
   AppFormField,
-  // AppFormPicker,
   SubmitButton,
 } from "../components/forms";
 import Screen from "../components/Screen.js";
@@ -17,15 +16,10 @@ const validationSchema = Yup.object().shape({
   medicine: Yup.string().required().min(1).label("Medicine"),
   treatmentDay: Yup.date().required().min(1).max(10000).label("Treatment Day"),
   cost: Yup.number().required().min(1).max(10000).label("Cost"),
-  // medicalHistory: Yup.string().label("Medical History"),
-  // category: Yup.object().required().nullable().label("Category"),
+
 });
 
-// const categories = [
-//   { label: "Furniture", value: 1 },
-//   { label: "Clothing", value: 2 },
-//   { label: "Camera", value: 3 },
-// ];
+
 const MedicalInputScreen = ({ navigation }) => {
   return (
     <Screen style={styles.container}>
@@ -37,11 +31,22 @@ const MedicalInputScreen = ({ navigation }) => {
           medicine: "",
           treatmentDay: "",
           cost: "",
-          // category: null,
+         
         }}
         onSubmit={(values) => console.log(values)}
         validationSchema={validationSchema}
       >
+        <AppFormField
+          maxLength={255}
+          name="patientId"
+          placeholder="Patient Id"
+        />
+        <AppFormField
+          // keyboardType="numeric"
+          maxLength={3}
+          name="treatmentDay"
+          placeholder="Treatment Day"
+        />
         <AppFormField
           maxLength={255}
           name="patientStatus"
@@ -53,12 +58,7 @@ const MedicalInputScreen = ({ navigation }) => {
           placeholder="Patient Diagnosis"
         />
         <AppFormField maxLength={255} name="medicine" placeholder="Medicine" />
-        <AppFormField
-          keyboardType="numeric"
-          maxLength={3}
-          name="treatmentDay"
-          placeholder="Treatment Day"
-        />
+        
         <AppFormField
           keyboardType="numeric"
           maxLength={3}

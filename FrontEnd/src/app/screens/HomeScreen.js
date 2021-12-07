@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, View, FlatList, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { ListItem, ListItemSeparator } from "../components/lists";
 import Card from "../components/Card";
@@ -8,7 +8,8 @@ import Icon from "../components/Icon";
 import routes from "../navigations/routes";
 import Screen from "../components/Screen.js";
 import AppButton from "../components/AppButton";
-
+import AuthContext from "../auth/context";
+import getPatientByID from "../api/patientApi";
 const menuItems = [
   {
     title: "My Patient",
@@ -32,23 +33,44 @@ const listings = [
     id: 1,
     title: "Patient 1",
     condition: "Headache",
-    image: require("../assets/patient.png"),
+    // image: require("../assets/patient.png"),
   },
   {
     id: 2,
     title: "Patient 2",
     condition: "Broken leg",
-    image: require("../assets/examination.png"),
+    // image: require("../assets/examination.png"),
   },
+  // {
+  //   id: 1,
+  //   title: "Patient 1",
+  //   condition: "Headache",
+  //   // image: require("../assets/patient.png"),
+  // },
+  // {
+  //   id: 1,
+  //   title: "Patient 1",
+  //   condition: "Headache",
+  //   // image: require("../assets/patient.png"),
+  // },
+  // {
+  //   id: 1,
+  //   title: "Patient 1",
+  //   condition: "Headache",
+  //   // image: require("../assets/patient.png"),
+  // },
 ];
 
 const HomeScreen = ({ navigation }) => {
+  
+
+  const { user } = useContext(AuthContext);
   return (
     <Screen>
       <View style={styles.container}>
         <ListItem
-          title="Personal Name"
-          subTitle="Occupation "
+          title={user.id}
+          subTitle={user.name}
           image={require("../assets/profile.png")}
         />
       </View>
@@ -85,7 +107,7 @@ const HomeScreen = ({ navigation }) => {
           )}
         />
       </View>
-
+      <Text>{getPatientByID}</Text>
       <AppButton
         title="Go to LoginScreen"
         onPress={() => navigation.navigate("Login")}
