@@ -1,30 +1,18 @@
 import React, { useState } from "react";
-import { StyleSheet, Image, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Yup from "yup";
-import {
-  AppForm,
-  AppFormField,
-  // AppFormPicker,
-  SubmitButton,
-} from "../components/forms";
+import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import Screen from "../components/Screen.js";
-import AppButton from "../components/AppButton";
+
 import { registerPatient } from "../api/patientApi";
 const patientValidationSchema = Yup.object().shape({
   patientName: Yup.string().required().min(1).label("Patient Name"),
-  patientAge: Yup.number().required().min(1).max(10000).label("Age"),
-  SSN: Yup.string().required().min(1).label("SSN"),
+  patientAge: Yup.number().required().min(1).max(100).label("Age"),
+  patientSSN: Yup.string().required().min(1).label("SSN"),
   medicalHistory: Yup.string().label("Medical History"),
-  // category: Yup.object().required().nullable().label("Category"),
 });
-
-// const categories = [
-//   { label: "Furniture", value: 1 },
-//   { label: "Clothing", value: 2 },
-//   { label: "Camera", value: 3 },
-// ];
 
 const PatientInputScreen = ({ navigation }) => {
   const patientHandleSubmit = async (values, actions) => {
@@ -36,19 +24,14 @@ const PatientInputScreen = ({ navigation }) => {
         values.patientSSN,
         values.medicalHistory
       );
+      // resetForm();
       // authContext.setUser(result);
-      console.log(patientResult);
-      // navigation.navigate("Home");
+      alert(patientResult);
+      // resetForm();
     } catch {
-      actions.resetForm();
-      return console.log("Wrong patientInput");
+      resetForm();
+      return alert("Wrong patientInput");
     }
-
-    // LOGIN SUCCESS
-    // apiClient.interceptors.request.use(async (config) => {
-    //   config.headers = { authorization: result.accessToken };
-    //   return config;
-    // });
   };
   return (
     <Screen style={styles.container}>

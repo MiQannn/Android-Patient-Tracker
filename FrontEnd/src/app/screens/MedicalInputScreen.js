@@ -2,38 +2,52 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Yup from "yup";
-import {
-  AppForm,
-  AppFormField,
-  SubmitButton,
-} from "../components/forms";
+import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import Screen from "../components/Screen.js";
 import AppButton from "../components/AppButton";
 
 const validationSchema = Yup.object().shape({
   patientStatus: Yup.string().required().min(1).label("Patient Status"),
+  patientStatus: Yup.string().required().min(1).label("Patient Status"),
   patientDiagnosis: Yup.string().required().min(1).label("Patient Diagnosis"),
   medicine: Yup.string().required().min(1).label("Medicine"),
   treatmentDay: Yup.date().required().min(1).max(10000).label("Treatment Day"),
   cost: Yup.number().required().min(1).max(10000).label("Cost"),
-
 });
 
-
 const MedicalInputScreen = ({ navigation }) => {
+  const medicalHandleSubmit = async (values, actions) => {
+    let patientResult = undefined;
+    try {
+      patientResult = await registerPatient(
+        values.patientId,
+        values.treatmentDay,
+        values.patientStatus,
+        values.patientDiagnosis,
+        values.medicine,
+        values.cost
+      );
+      // resetForm();
+      // authContext.setUser(result);
+      alert(patientResult);
+      // resetForm();
+    } catch {
+      resetForm();
+      return alert("Wrong patientInput");
+    }
+  };
   return (
     <Screen style={styles.container}>
       <AppForm
         initialValues={{
-          patientId:"",
+          patientId: "",
+          treatmentDay: "",
           patientStatus: "",
           patientDiagnosis: "",
           medicine: "",
-          treatmentDay: "",
           cost: "",
-         
         }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={medicalHandleSubmit}
         validationSchema={validationSchema}
       >
         <AppFormField
@@ -58,7 +72,7 @@ const MedicalInputScreen = ({ navigation }) => {
           placeholder="Patient Diagnosis"
         />
         <AppFormField maxLength={255} name="medicine" placeholder="Medicine" />
-        
+
         <AppFormField
           keyboardType="numeric"
           maxLength={3}

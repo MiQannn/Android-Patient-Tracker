@@ -10,60 +10,38 @@ import Screen from "../components/Screen.js";
 import AppButton from "../components/AppButton";
 import AuthContext from "../auth/context";
 import getPatientByID from "../api/patientApi";
-const menuItems = [
-  {
-    title: "My Patient",
-    icon: {
-      name: "format-list-bulleted",
-      backgroundColor: colors.primary,
-    },
-  },
-  // {
-  //   title: "My ???",
-  //   icon: {
-  //     name: "email",
-  //     backgroundColor: colors.secondary,
-  //   },
-  //   targetScreen: routes.MESSAGES,
-  // },
-];
+// const menuItems = [
+//   {
+//     title: "My Patient",
+//     icon: {
+//       name: "format-list-bulleted",
+//       backgroundColor: colors.primary,
+//     },
+//   },
+// ];
 
 const listings = [
   {
     id: 1,
     title: "Patient 1",
     condition: "Headache",
-    // image: require("../assets/patient.png"),
+    image: require("../assets/patient.png"),
   },
   {
     id: 2,
     title: "Patient 2",
     condition: "Broken leg",
-    // image: require("../assets/examination.png"),
+    image: require("../assets/examination.png"),
   },
-  // {
-  //   id: 1,
-  //   title: "Patient 1",
-  //   condition: "Headache",
-  //   // image: require("../assets/patient.png"),
-  // },
-  // {
-  //   id: 1,
-  //   title: "Patient 1",
-  //   condition: "Headache",
-  //   // image: require("../assets/patient.png"),
-  // },
-  // {
-  //   id: 1,
-  //   title: "Patient 1",
-  //   condition: "Headache",
-  //   // image: require("../assets/patient.png"),
-  // },
+  {
+    id: 1,
+    title: "Patient 1",
+    condition: "Headache",
+    image: require("../assets/patient.png"),
+  },
 ];
 
 const HomeScreen = ({ navigation }) => {
-  
-
   const { user } = useContext(AuthContext);
   return (
     <Screen>
@@ -75,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
         />
       </View>
       <View style={styles.container}>
-        <FlatList
+        {/* <FlatList
           data={menuItems}
           keyExtractor={(menuItem) => menuItem.title}
           ItemSeparatorComponent={ListItemSeparator}
@@ -91,7 +69,7 @@ const HomeScreen = ({ navigation }) => {
               onPress={() => navigation.navigate(item.targetScreen)}
             />
           )}
-        />
+        /> */}
       </View>
       <View>
         <FlatList
