@@ -7,11 +7,18 @@ import Screen from "../components/Screen.js";
 import AppButton from "../components/AppButton";
 
 const validationSchema = Yup.object().shape({
-  patientStatus: Yup.string().required().min(1).label("Patient Status"),
+  patientId: Yup.string().required().min(1).label("Patient Status"),
+  treatmentDay: Yup.date()
+    .required()
+    .min(1)
+    .max(10000)
+    .default(function () {
+      return new Date();
+    })
+    .label("Treatment Day"),
   patientStatus: Yup.string().required().min(1).label("Patient Status"),
   patientDiagnosis: Yup.string().required().min(1).label("Patient Diagnosis"),
   medicine: Yup.string().required().min(1).label("Medicine"),
-  treatmentDay: Yup.date().required().min(1).max(10000).label("Treatment Day"),
   cost: Yup.number().required().min(1).max(10000).label("Cost"),
 });
 
@@ -32,7 +39,7 @@ const MedicalInputScreen = ({ navigation }) => {
       alert(patientResult);
       // resetForm();
     } catch {
-      resetForm();
+      actions.resetForm();
       return alert("Wrong patientInput");
     }
   };
@@ -56,10 +63,11 @@ const MedicalInputScreen = ({ navigation }) => {
           placeholder="Patient Id"
         />
         <AppFormField
+          type="date"
           // keyboardType="numeric"
-          maxLength={3}
+          maxLength={255}
           name="treatmentDay"
-          placeholder="Treatment Day"
+          placeholder="Treatment Day - ex: 2021-03-04"
         />
         <AppFormField
           maxLength={255}

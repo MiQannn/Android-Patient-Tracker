@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, FlatList, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { ListItem, ListItemSeparator } from "../components/lists";
 import Card from "../components/Card";
 import colors from "../config/colors";
-import Icon from "../components/Icon";
-import routes from "../navigations/routes";
+// import Icon from "../components/Icon";
+// import routes from "../navigations/routes";
 import Screen from "../components/Screen.js";
 import AppButton from "../components/AppButton";
 import AuthContext from "../auth/context";
@@ -35,14 +35,31 @@ const listings = [
   },
   {
     id: 1,
-    title: "Patient 1",
+    title: "Patient 3",
+    condition: "Headache",
+    image: require("../assets/patient.png"),
+  },
+  {
+    id: 1,
+    title: "Patient 4",
     condition: "Headache",
     image: require("../assets/patient.png"),
   },
 ];
 
 const HomeScreen = ({ navigation }) => {
-  const { user } = useContext(AuthContext);
+  const [PID, setPID] = useState([]);
+  const [listing, setListing] = useState([])
+
+  useEffect(() => {
+    const getPID = async (patientId) => {
+      const result = await getPatientByID(patientId);
+      return result.patient_name
+    };
+    getPID();
+  }, []);
+
+  const { user, setUser } = useContext(AuthContext);
   return (
     <Screen>
       <View style={styles.container}>
@@ -71,6 +88,20 @@ const HomeScreen = ({ navigation }) => {
           )}
         /> */}
       </View>
+      {/* <View>
+        <FlatList
+          data={listings}
+          keyExtractor={(listing) => listing.id.toString()}
+          horizontal={true}
+          renderItem={({ item }) => (
+            <Card
+              title={item.title}
+              subTitle={"Condition: " + item.condition}
+              image={item.image}
+            />
+          )}
+        />
+      </View> */}
       <View>
         <FlatList
           data={listings}
@@ -85,11 +116,8 @@ const HomeScreen = ({ navigation }) => {
           )}
         />
       </View>
-      <Text>{getPatientByID}</Text>
-      <AppButton
-        title="Go to LoginScreen"
-        onPress={() => navigation.navigate("Login")}
-      />
+      {/* <Text>{response.data}</Text> */}
+      {/* <AppButton title="Go to LoginScreen" onPress={handlegetPatientByID} /> */}
     </Screen>
   );
 };

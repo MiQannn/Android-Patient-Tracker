@@ -13,7 +13,13 @@ import { createAppointment } from "../api/appointmentApi";
 
 const validationSchema = Yup.object().shape({
   patientId: Yup.string().required().min(1).label("Patient Status"),
-  appointmentDay: Yup.date().required().min(1).label("Appointment Day"),
+  appointmentDay: Yup.date()
+    .required()
+    .min(1)
+    .default(function () {
+      return new Date();
+    })
+    .label("Appointment Day"),
   appointmentDescription: Yup.string()
     .required()
     .min(1)
@@ -57,6 +63,7 @@ const AppointmentScreen = ({ navigation }) => {
         />
         <AppFormField
           maxLength={255}
+          type="date"
           name="appointmentDay"
           placeholder="Appointment Day"
         />

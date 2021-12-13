@@ -72,7 +72,7 @@ const LoginScreen = ({ props, navigation }) => {
     try {
       result = await login(values.email, values.password);
       authContext.setUser(result);
-      console.log(result);
+      // console.log(result);
     } catch {
       actions.resetForm();
       return console.log("Wrong password");
