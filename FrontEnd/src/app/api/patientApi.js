@@ -1,11 +1,11 @@
 import client from "./axiosClient";
 
-export const getPatientByID = async (id) => {
-  return await client.get("/api/patient", { params: { id } });
+export const getPatientByID = async (patientId) => {
+  return (await client.get("/api/patient", { params: { patientId } }))[0];
 };
 
-export const getPatientByName = async (name) => {
-  return await client.get("/api/patient", { params: { name } });
+export const getPatientByName = async (patientName) => {
+  return await client.get("/api/patient", { params: { patientName } });
 };
 
 export const registerPatient = async (
