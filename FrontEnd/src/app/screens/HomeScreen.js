@@ -28,74 +28,67 @@ const getPatientName = async (patientId) => {
 };
 
 const HomeScreen = ({ navigation }) => {
-  const [PID, setPID] = useState([]);
-  const [listings, setListings] = useState([]);
-  const [patient, setPatient] = useState([]);
-
+  const [appointments, setAppointments] = useState([]);
+  const [patients, setPatients] = useState([]);
+  const [treatments, setTreatments] = useState([]);
+  
   useEffect(() => {
-    const fetchListings = async () => {
+    const fetchData = async () => {
       const appointments = await getUpcomingAppointment();
+      const patientIds = appointments.map(({patient_id}) => patient_id)
+      const uniquePatientIds = Array.from(new Set(patientIds))
+      const temp_patients = [];
 
-      const patientNames = await Promise.all(
-        appointments.map(({ patient_id }) => getPatientName(patient_id))
-      );
+      const getData = uniquePatientIds.map(async (patientId) => {
+        const patientInfo = await getPatientByID(patientId)
+        const treatmentsInfo = await getTreatment(patientId)
 
-      const result = appointments.map(
+        temp_patients.push({
+          patientId,
+          patientName: patientInfo.patient_name,
+          patientAge: patientInfo.patient_age,
+          patientSSN: patientInfo.patient_ssn,
+          medicalHistory: patientInfo.medical_history,
+
+          treatments: treatmentsInfo.map((treatment) => ({ // treatments là list nhe
+            treatmentId: treatment.treatment_id,
+            patientStatus: treatment.patient_status,
+            patientDiagnosis: treatment.patient_diagnosis,
+            medicine: treatment.medicine,
+            treatmentDay: treatment.treatment_day,
+            cost: treatment.cost,
+          }))
+        })
+      })
+      await Promise.all(getData);
+      setPatients(temp_patients);
+      const temp_treatments = temp_patients.filter(({treatments}) => treatments.length > 0).map(({patientName, treatments}) => {
+        return {...treatments[0], patientName}
+      }) // lấy treatment đầu tiên
+      setTreatments(temp_treatments);
+
+      const appointmentsWithName = appointments.map(
         (
           {
             appointment_id,
             patient_id,
             appointment_day,
             appointment_descripton,
-          },
-          index
+          }
         ) => ({
           appointment_id,
           patient_id,
           appointment_day,
           appointment_descripton,
-          patient_name: patientNames[index],
+          patient_name: temp_patients.find((patient) => patient.patientId === patient_id).patientName,
         })
       );
-      setListings(result);
+      console.log(appointmentsWithName)
+      setAppointments(appointmentsWithName);
     };
 
-    const fetchListingsPatient = async () => {
-      const treatments = await getTreatment();
-      const patientNamesforTreatment = await Promise.all(
-        treatments.map(({ patient_id }) => getPatientName(patient_id))
-      );
 
-      const resultTreatment = treatments.map(
-        (
-          {
-            treatment_id,
-            patient_id,
-            doctor_id,
-            patient_status,
-            patient_diagnosis,
-            medicine,
-            treatment_day,
-            cost,
-          },
-          index
-        ) => ({
-          treatment_id,
-          patient_id,
-          doctor_id,
-          patient_status,
-          patient_diagnosis,
-          medicine,
-          treatment_day,
-          cost,
-          patient_name: patientNamesforTreatment[index],
-        })
-      );
-      setPatient(resultTreatment);
-    };
-
-    fetchListings();
-    fetchListingsPatient();
+    fetchData();
   }, []);
 
   const { user, setUser } = useContext(AuthContext);
@@ -113,7 +106,7 @@ const HomeScreen = ({ navigation }) => {
 
       <View>
         <FlatList
-          data={listings}
+          data={appointments}
           keyExtractor={(listing) => listing.appointment_id.toString()}
           horizontal={true}
           renderItem={({ item }) => (
@@ -130,13 +123,13 @@ const HomeScreen = ({ navigation }) => {
 
       <View>
         <FlatList
-          data={patient}
-          keyExtractor={(patient) => patient.treatment_id.toString()}
+          data={patients}
+          keyExtractor={(patient) => patient.patientId.toString()}
           horizontal={true}
           renderItem={({ item }) => (
             <Card
-              title={item.patient_name}
-              subTitle={"Diagnosis: " + item.patient_diagnosis}
+              title={item.patientName}
+              subTitle={"ID:" + item.patientId}
               image={require("../assets/patient.png")}
             />
           )}
@@ -145,13 +138,13 @@ const HomeScreen = ({ navigation }) => {
       {/* cai nay tinh lam cho cai Treatment List */}
       <View>
         <FlatList
-          data={patient}
-          keyExtractor={(patient) => patient.treatment_id.toString()}
+          data={treatments}
+          keyExtractor={(treatment) => treatment?.treatmentId?.toString()}
           horizontal={true}
           renderItem={({ item }) => (
             <Card
-              title={item.patient_name}
-              subTitle={"Diagnosis: " + item.patient_diagnosis}
+              title={item.patientName}
+              subTitle={"Diagnosis: " + item.patientDiagnosis}
               image={require("../assets/patient.png")}
             />
           )}
