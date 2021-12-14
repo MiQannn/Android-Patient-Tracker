@@ -121,16 +121,16 @@ const LoginScreen = ({ props, navigation }) => {
             icon="lock"
             name="password"
             placeholder="Password"
-            securityTextEntry
+            securityTextEntry="true"
             textContentType="password"
           />
         </View>
         <SubmitButton title="LOGIN" />
       </AppForm>
 
-      <TouchableOpacity>
+      {/* <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* function for popup message when user choose Forgot pass -> still in developement */}
       {/* <View style={{ flex: 1 }}>
@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 20,
     alignItems: "center",
-    // fontFamily: "Arial",
   },
 
   loginBtn: {
