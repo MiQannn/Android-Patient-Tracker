@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, Button, Platform } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Screen from "../components/Screen.js";
 import * as Yup from "yup";
@@ -10,7 +10,6 @@ import {
   SubmitButton,
 } from "../components/forms";
 import { createAppointment } from "../api/appointmentApi";
-import DateTimePicker from "@react-native-community/datetimepicker";
 
 const validationSchema = Yup.object().shape({
   patientId: Yup.string().required().min(1).label("Patient Status"),
@@ -34,30 +33,7 @@ const validationSchema = Yup.object().shape({
     .min(1)
     .label("Appointment Description"),
 });
-const AppointmentScreen = (props) => {
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "android");
-    setDate(currentDate);
-  };
-
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-  };
-
-  const showTimepicker = () => {
-    showMode("time");
-  };
-
+const AppointmentScreen = ({ navigation }) => {
   const appointmentHandleSubmit = async (values, actions) => {
     let appointmentResult = undefined;
     try {
@@ -95,24 +71,11 @@ const AppointmentScreen = (props) => {
         />
         <AppFormField
           maxLength={255}
-          value={props.value}
-          onFocus={showDatepicker}
           type="date"
           name="appointmentDay"
           placeholder="Appointment Day"
           // onChange={onChange}
         />
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            dateFormat="yyyy-MM-dd"
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />
-        )}
         <AppFormField
           maxLength={255}
           name="appointmentDescription"
@@ -120,17 +83,6 @@ const AppointmentScreen = (props) => {
         />
 
         <SubmitButton title="Submit" />
-        {/* <Button onPress={showDatepicker} title="Show date picker!" />
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />
-        )} */}
       </AppForm>
     </Screen>
   );
