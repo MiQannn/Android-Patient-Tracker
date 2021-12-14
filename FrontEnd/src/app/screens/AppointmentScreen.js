@@ -17,16 +17,24 @@ const validationSchema = Yup.object().shape({
   appointmentDay: Yup.date()
     .required()
     .min(1)
+    // .format("DD-MM-YYYY", true)
     .default(function () {
       return new Date();
-    })
-    .label("Appointment Day"),
+    }),
+  // Yup.date()
+  //   .transform((value) => {
+  //     return value ? moment(value).toDate() : value;
+  //   })
+  //   .required("Date of Birth is required")
+  //   .max(dateToday, "Future date not allowed")
+  //   .label("Appointment Day");
+
   appointmentDescription: Yup.string()
     .required()
     .min(1)
     .label("Appointment Description"),
 });
-const AppointmentScreen = ({ navigation }) => {
+const AppointmentScreen = (props) => {
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
@@ -87,14 +95,17 @@ const AppointmentScreen = ({ navigation }) => {
         />
         <AppFormField
           maxLength={255}
+          value={props.value}
           onFocus={showDatepicker}
           type="date"
           name="appointmentDay"
           placeholder="Appointment Day"
+          // onChange={onChange}
         />
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
+            dateFormat="yyyy-MM-dd"
             value={date}
             mode={mode}
             is24Hour={true}
