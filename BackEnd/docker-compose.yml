@@ -2,14 +2,14 @@ version: '3'
 
 services:
 
-  # server:
-  #   depends_on:
-  #     - database
-  #   build: ./server
-  #   ports:
-  #     - '5000:5000'
-  #   environment:
-  #     - DATABASE_URL=postgresql://postgres:postgres@database:5432/postgres
+  server:
+    depends_on:
+      - database
+    build: ./server
+    ports:
+      - '5000:5000'
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database:5432/postgres
 
   database:
     build: ./database
