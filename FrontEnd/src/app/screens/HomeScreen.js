@@ -9,8 +9,9 @@ import colors from "../config/colors";
 import Screen from "../components/Screen.js";
 import AppButton from "../components/AppButton";
 import AuthContext from "../auth/context";
-import {getPatientByID} from "../api/patientApi";
+import { getPatientByID } from "../api/patientApi";
 import { getUpcomingAppointment } from "../api/appointmentApi";
+import { getTreatment } from "../api/treatmentApi";
 // const menuItems = [
 //   {
 //     title: "My Patient",
@@ -21,54 +22,80 @@ import { getUpcomingAppointment } from "../api/appointmentApi";
 //   },
 // ];
 
-const listings = [
-  {
-    id: 1,
-    title: "Patient 1",
-    condition: "Headache",
-    image: require("../assets/patient.png"),
-  },
-  {
-    id: 2,
-    title: "Patient 2",
-    condition: "Broken leg",
-    image: require("../assets/examination.png"),
-  },
-  {
-    id: 1,
-    title: "Patient 3",
-    condition: "Headache",
-    image: require("../assets/patient.png"),
-  },
-  {
-    id: 1,
-    title: "Patient 4",
-    condition: "Headache",
-    image: require("../assets/patient.png"),
-  },
-];
 const getPatientName = async (patientId) => {
   const result = await getPatientByID(patientId);
-  return result.patient_name
+  return result.patient_name;
 };
 
 const HomeScreen = ({ navigation }) => {
   const [PID, setPID] = useState([]);
-  const [listings, setListings] = useState([])
+  const [listings, setListings] = useState([]);
+  const [patient, setPatient] = useState([]);
 
   useEffect(() => {
-
     const fetchListings = async () => {
-      const appointments = await getUpcomingAppointment()
-      const patientNames = await Promise.all(appointments.map(({patient_id}) => getPatientName(patient_id)))
+      const appointments = await getUpcomingAppointment();
 
-      const result = appointments.map(({appointment_id, patient_id, appointment_day, appointment_descripton}, index) => ({
-        appointment_id, patient_id, appointment_day, appointment_descripton, patient_name: patientNames[index]
-      }))
-      setListings(result)
-    }
+      const patientNames = await Promise.all(
+        appointments.map(({ patient_id }) => getPatientName(patient_id))
+      );
+
+      const result = appointments.map(
+        (
+          {
+            appointment_id,
+            patient_id,
+            appointment_day,
+            appointment_descripton,
+          },
+          index
+        ) => ({
+          appointment_id,
+          patient_id,
+          appointment_day,
+          appointment_descripton,
+          patient_name: patientNames[index],
+        })
+      );
+      setListings(result);
+    };
+
+    const fetchListingsPatient = async () => {
+      const treatments = await getTreatment();
+      const patientNamesforTreatment = await Promise.all(
+        treatments.map(({ patient_id }) => getPatientName(patient_id))
+      );
+
+      const resultTreatment = treatments.map(
+        (
+          {
+            treatment_id,
+            patient_id,
+            doctor_id,
+            patient_status,
+            patient_diagnosis,
+            medicine,
+            treatment_day,
+            cost,
+          },
+          index
+        ) => ({
+          treatment_id,
+          patient_id,
+          doctor_id,
+          patient_status,
+          patient_diagnosis,
+          medicine,
+          treatment_day,
+          cost,
+          patient_name: patientNamesforTreatment[index],
+        })
+      );
+      setPatient(resultTreatment);
+    };
 
     fetchListings();
+    fetchListingsPatient();
   }, []);
 
   const { user, setUser } = useContext(AuthContext);
@@ -81,39 +108,9 @@ const HomeScreen = ({ navigation }) => {
           image={require("../assets/profile.png")}
         />
       </View>
-      <View style={styles.container}>
-        {/* <FlatList
-          data={menuItems}
-          keyExtractor={(menuItem) => menuItem.title}
-          ItemSeparatorComponent={ListItemSeparator}
-          renderItem={({ item }) => (
-            <ListItem
-              title={item.title}
-              IconComponent={
-                <Icon
-                  name={item.icon.name}
-                  backgroundColor={item.icon.backgroundColor}
-                />
-              }
-              onPress={() => navigation.navigate(item.targetScreen)}
-            />
-          )}
-        /> */}
-      </View>
-      {/* <View>
-        <FlatList
-          data={listings}
-          keyExtractor={(listing) => listing.id.toString()}
-          horizontal={true}
-          renderItem={({ item }) => (
-            <Card
-              title={item.title}
-              subTitle={"Condition: " + item.condition}
-              image={item.image}
-            />
-          )}
-        />
-      </View> */}
+
+      {/* cai nay la listing cua appointment */}
+
       <View>
         <FlatList
           data={listings}
@@ -123,6 +120,38 @@ const HomeScreen = ({ navigation }) => {
             <Card
               title={item.patient_name}
               subTitle={"Condition: " + item.appointment_descripton}
+              image={require("../assets/patient.png")}
+            />
+          )}
+        />
+      </View>
+
+      {/* cai nay tinh lam cho cai patientlist */}
+
+      <View>
+        <FlatList
+          data={patient}
+          keyExtractor={(patient) => patient.treatment_id.toString()}
+          horizontal={true}
+          renderItem={({ item }) => (
+            <Card
+              title={item.patient_name}
+              subTitle={"Diagnosis: " + item.patient_diagnosis}
+              image={require("../assets/patient.png")}
+            />
+          )}
+        />
+      </View>
+      {/* cai nay tinh lam cho cai Treatment List */}
+      <View>
+        <FlatList
+          data={patient}
+          keyExtractor={(patient) => patient.treatment_id.toString()}
+          horizontal={true}
+          renderItem={({ item }) => (
+            <Card
+              title={item.patient_name}
+              subTitle={"Diagnosis: " + item.patient_diagnosis}
               image={require("../assets/patient.png")}
             />
           )}
