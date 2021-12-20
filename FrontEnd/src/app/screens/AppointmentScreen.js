@@ -31,7 +31,7 @@ const AppointmentScreen = ({ navigation }) => {
 
       alert(appointmentResult);
     } catch {
-      actions.resetForm();
+      // actions.resetForm();
       return alert("Wrong Appointment Input");
     }
   };

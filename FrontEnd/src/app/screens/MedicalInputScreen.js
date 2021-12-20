@@ -3,9 +3,10 @@ import { StyleSheet, ScrollView } from "react-native";
 import * as Yup from "yup";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import Screen from "../components/Screen.js";
+import { createTreatment } from "../api/treatmentApi";
 
 const validationSchema = Yup.object().shape({
-  patientId: Yup.string().required().min(1).label("Patient Status"),
+  patientId: Yup.string().required().min(1).label("Patient Id"),
   treatmentDay: Yup.date()
     .required()
     .min(1)
@@ -17,14 +18,14 @@ const validationSchema = Yup.object().shape({
   patientStatus: Yup.string().required().min(1).label("Patient Status"),
   patientDiagnosis: Yup.string().required().min(1).label("Patient Diagnosis"),
   medicine: Yup.string().required().min(1).label("Medicine"),
-  cost: Yup.number().required().min(1).max(10000).label("Cost"),
+  cost: Yup.number().required().min(1).max(1000000).label("Cost"),
 });
 
-const MedicalInputScreen = ({ navigation }) => {
+const MedicalInputScreen = () => {
   const medicalHandleSubmit = async (values, actions) => {
     let patientResult = undefined;
     try {
-      patientResult = await registerPatient(
+      patientResult = await createTreatment(
         values.patientId,
         values.treatmentDay,
         values.patientStatus,
@@ -35,7 +36,7 @@ const MedicalInputScreen = ({ navigation }) => {
 
       alert(patientResult);
     } catch {
-      actions.resetForm();
+      // actions.resetForm();
       return alert("Wrong patientInput");
     }
   };
